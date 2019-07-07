@@ -30,25 +30,20 @@ namespace MacAddressGenerator
 
             Clipboard.Copy(mac);
 
-            var logger = serviceProvider.GetService<ILoggerFactory>().CreateLogger(nameof(Program));
+            var logger = serviceProvider.GetService<ILogger<Program>>();
 
             logger.LogInformation($"A new mac address '{mac}' has been generated and added to your clipboard!");
-
-
-            Console.ReadKey();
         }
 
         private static IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddLogging();
+            services.AddLogging(x => x.AddConsole());
 
             services.Configure<OUI>(Configuration.GetSection("oui"));
 
             var container = IOC.Current;
 
             container.Populate(services);
-
-            container.GetInstance<ILoggerFactory>().AddConsole(Configuration.GetSection("Logging"));
 
             new StructureMapConfig(container).Bootstrap();
 
