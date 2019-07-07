@@ -1,4 +1,4 @@
-# Mac Address Generator
+# Mac Address Generator [![Build Status](https://travis-ci.com/jaspenlind/mac-address-generator.svg?branch=master)](https://travis-ci.com/jaspenlind/mac-address-generator)
 
 - A tool for creating random MAC addresses
 
