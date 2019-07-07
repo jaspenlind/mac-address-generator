@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MacAddressGenerator", "MacAddressGenerator\MacAddressGenerator.csproj", "{D6A0B39F-E778-4929-8AE5-C78B069554ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D6A0B39F-E778-4929-8AE5-C78B069554ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6A0B39F-E778-4929-8AE5-C78B069554ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6A0B39F-E778-4929-8AE5-C78B069554ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6A0B39F-E778-4929-8AE5-C78B069554ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {218A9F01-704F-497D-B934-C317C3D09FE6}
+	EndGlobalSection
+EndGlobal
