@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CsvHelper;
-using MacAddressGenerator.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -20,18 +19,18 @@ namespace MacAddressGenerator
 
         private readonly ILogger<MacAddressService> logger;
 
-        private readonly OUI oui;
+        private readonly Config configuration;
 
-        public MacAddressService(ILoggerFactory loggerFactory, IOptions<OUI> oui)
+        public MacAddressService(ILogger<MacAddressService> logger, IOptions<Config> configuration)
         {
-            if (loggerFactory == null)
+            if (logger == null)
             {
-                throw new ArgumentNullException(nameof(loggerFactory));
+                throw new ArgumentNullException(nameof(logger));
             }
 
-            logger = loggerFactory.CreateLogger<MacAddressService>();
-
-            this.oui = oui?.Value ?? throw new ArgumentNullException(nameof(oui));
+            this.logger = logger;
+            logger.LogInformation("Here");
+            this.configuration = configuration.Value;
         }
 
         public string Generate()
@@ -43,24 +42,25 @@ namespace MacAddressGenerator
 
         private string GetRandomMacAddress()
         {
-            var buffer = new byte[6];
+            var buffer = new byte[3];
 
-            var ouiPrefix = string.Empty;
+            var ouiPrefix = configuration.OUI;
 
-            if (oui.Enabled && !string.IsNullOrWhiteSpace(oui.Value))
+            if (string.IsNullOrWhiteSpace(ouiPrefix))
             {
                 var definition = GetRandomOui();
 
                 logger.LogInformation($"Using '{definition.Oui}' for manufacturer '{definition.Manufacturer}' as Organizationally Unique Identifier (OUI)");
 
-                buffer = new byte[3];
-
-                ouiPrefix = $"{definition.Oui}:";
+                ouiPrefix = $"{definition.Oui}";
             }
-
+            else
+            {
+                logger.LogInformation($"Using custom OUI {ouiPrefix}");
+            }
             Random.NextBytes(buffer);
 
-            return $"{ouiPrefix}{BitConverter.ToString(buffer)}".Replace("-", ":");
+            return $"{ouiPrefix}:{BitConverter.ToString(buffer)}".Replace("-", ":");
         }
 
         private static OuiDefinition GetRandomOui()

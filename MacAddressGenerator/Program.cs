@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using MacAddressGenerator.Configuration;
+using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -10,20 +10,21 @@ namespace MacAddressGenerator
 {
     class Program
     {
-        public static IConfigurationRoot Configuration { get; set; }
-
         static void Main(string[] args)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
+            var switchMappings = new Dictionary<string, string>()
+             {
+                 { "-oui", "oui" }
+             };
 
-            Configuration = builder.Build();
+            var builder = new ConfigurationBuilder().AddCommandLine(args, switchMappings);
+
+            var config = builder.Build();
 
             var container = new Container(x =>
             {
                 x.AddLogging(x => x.AddConsole());
-                x.Configure<OUI>(Configuration.GetSection("oui"));
+                x.Configure((Action<Config>)(x => x.OUI = config[(string)"oui"]?.Truncate(8)));
                 x.Scan(y =>
                 {
                     y.TheCallingAssembly();
