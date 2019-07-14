@@ -19,8 +19,7 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="oui.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    
+    <EmbeddedResource Include="oui.csv" />
   </ItemGroup>
 </Project>

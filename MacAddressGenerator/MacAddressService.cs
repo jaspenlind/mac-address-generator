@@ -29,7 +29,7 @@ namespace MacAddressGenerator
             }
 
             this.logger = logger;
-            logger.LogInformation("Here");
+
             this.configuration = configuration.Value;
         }
 
@@ -65,18 +65,19 @@ namespace MacAddressGenerator
 
         private static OuiDefinition GetRandomOui()
         {
-            IEnumerable<OuiDefinition> allDefinitions;
+            var embeddedFile = typeof(MacAddressService).Assembly.GetEmbeddedResource("oui.csv");
 
-            using (var reader = File.OpenText("oui.csv"))
+            using (var reader = new StreamReader(embeddedFile))
+            using (var csv = new CsvReader(reader))
             {
-                var csv = new CsvReader(reader);
-
                 csv.Configuration.HasHeaderRecord = false;
 
-                allDefinitions = csv.GetRecords<OuiDefinition>().ToList();
-            }
+                var definitions = csv.GetRecords<OuiDefinition>().ToList();
 
-            return allDefinitions.ElementAt(Random.Next(0, allDefinitions.Count() - 1));
+                var index = Random.Next(0, definitions.Count - 1);
+
+                return definitions.ElementAt(index);
+            }
         }
     }
 }
