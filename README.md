@@ -1,4 +1,6 @@
-Mac Address Generator is a tool for generating custom MAC addresses.
+# Mac Address Generator
+
+- a tool for generating custom MAC addresses
 
 ## Build status
 
